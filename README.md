@@ -11,8 +11,9 @@
 | **AI triage** | Claude verdict **HIGH / true_positive**, mapped to MITRE **T1110** + **T1078** |
 | **Response** | Structured incident report written to disk + alert delivered to Slack |
 
-<!-- Screenshots: add images/slack-alerts.png, images/dashboard.png, images/report.png (blur usernames, hostnames and public IPs) -->
-<!-- ![Slack alerts](images/slack-alerts.png) ![Wazuh dashboard](images/dashboard.png) -->
+![Slack: AI triage of the SSH brute force](images/slack-alerts.png)
+
+![Wazuh dashboard: live detections](images/dashboard.png)
 
 ---
 
