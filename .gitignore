@@ -1,0 +1,5 @@
+.env
+wazuh-docker/
+reports/*.md
+__pycache__/
+*.pyc

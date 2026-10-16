@@ -1,0 +1,23 @@
+[
+  {
+    "timestamp": "2026-10-15T09:00:01.000Z",
+    "agent": {"name": "victim-linux", "id": "001"},
+    "rule": {"id": "5710", "level": 5, "description": "sshd: Attempt to login using a non-existent user", "groups": ["syslog", "sshd", "authentication_failed"]},
+    "data": {"srcip": "203.0.113.47", "srcuser": "deploy"},
+    "full_log": "Failed password for invalid user deploy from 203.0.113.47 port 51022 ssh2"
+  },
+  {
+    "timestamp": "2026-10-15T09:00:04.000Z",
+    "agent": {"name": "victim-linux", "id": "001"},
+    "rule": {"id": "5712", "level": 10, "description": "sshd: brute force trying to get access to the system. Authentication failed.", "groups": ["syslog", "sshd", "authentication_failures"]},
+    "data": {"srcip": "203.0.113.47", "srcuser": "deploy"},
+    "full_log": "Failed password for deploy from 203.0.113.47 port 51044 ssh2"
+  },
+  {
+    "timestamp": "2026-10-15T09:00:09.000Z",
+    "agent": {"name": "victim-linux", "id": "001"},
+    "rule": {"id": "5715", "level": 3, "description": "sshd: authentication success.", "groups": ["syslog", "sshd", "authentication_success"]},
+    "data": {"srcip": "203.0.113.47", "srcuser": "deploy"},
+    "full_log": "Accepted password for deploy from 203.0.113.47 port 51077 ssh2"
+  }
+]

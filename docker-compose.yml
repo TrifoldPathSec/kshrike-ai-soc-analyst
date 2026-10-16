@@ -1,0 +1,46 @@
+# AI SOC Analyst homelab
+#
+# Wazuh (manager + indexer + dashboard) comes from the official wazuh-docker
+# repo, which scripts/setup.sh clones into ./wazuh-docker. `include` keeps its
+# relative paths working, and all services share one default network.
+
+include:
+  - path: wazuh-docker/single-node/docker-compose.yml
+
+services:
+  # The AI SOC analyst: polls Wazuh for new alerts and triages them with Claude.
+  ai-analyst:
+    build: ./analyst
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      INDEXER_URL: https://wazuh.indexer:9200
+      INDEXER_CA_CERT: /certs/root-ca.pem
+      REPORTS_DIR: /app/reports
+    volumes:
+      - ./reports:/app/reports
+      - ./wazuh-docker/single-node/config/wazuh_indexer_ssl_certs/root-ca.pem:/certs/root-ca.pem:ro
+    depends_on:
+      - wazuh.indexer
+
+  # A monitored Ubuntu endpoint (Wazuh agent, sshd, FIM on /etc and /tmp).
+  victim:
+    build:
+      context: ./victim
+      args:
+        WAZUH_AGENT_VERSION: ${WAZUH_AGENT_VERSION:-4.14.9-1}
+    hostname: victim-linux
+    restart: unless-stopped
+    environment:
+      WAZUH_MANAGER: wazuh.manager
+      WAZUH_AGENT_NAME: victim-linux
+    depends_on:
+      - wazuh.manager
+
+  # Attack box: runs the scenarios in ./attacker/scenarios against the victim.
+  attacker:
+    build: ./attacker
+    hostname: attacker
+    command: ["sleep", "infinity"]
+    volumes:
+      - ./attacker/scenarios:/scenarios:ro
