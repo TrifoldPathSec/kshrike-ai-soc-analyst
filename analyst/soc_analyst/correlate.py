@@ -8,7 +8,8 @@ from typing import Any
 
 def _source_ip(alert: dict[str, Any]) -> str:
     data = alert.get("data", {})
-    return data.get("srcip") or data.get("src_ip") or "n/a"
+    # src_host: OpenCanary honeypot events (blackout-honeypot-lab)
+    return data.get("srcip") or data.get("src_ip") or data.get("src_host") or "n/a"
 
 
 def group(alerts: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
